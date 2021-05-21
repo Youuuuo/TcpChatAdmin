@@ -10,22 +10,22 @@ export const returnColumns = that => (
         width: 150,
         dataIndex: 'code',
         key: 'code',
-          render: (text, record, index) => {
-            return(
-                <Input placeholder={text} allowClear onBlur={(event=>that.changeDate('code',record.uid,event.target.value))}/>
-            )
-          }
+          // render: (text, record, index) => {
+          //   return(
+          //       <Input placeholder={text} allowClear onBlur={(event=>that.changeDate('code',record.uid,event.target.value))}/>
+          //   )
+          // }
       },
       {
         title: '账号',
         width: 150,
         dataIndex: 'username',
         key: 'username',
-          render: (text, record, index) => {
-              return(
-                  <Input placeholder={text} allowClear onBlur={(event=>that.changeDate('username',record.uid,event.target.value))}/>
-              )
-          }
+          // render: (text, record, index) => {
+          //     return(
+          //         <Input placeholder={text} allowClear onBlur={(event=>that.changeDate('username',record.uid,event.target.value))}/>
+          //     )
+          // }
       },
       {
         title: '昵称',
@@ -33,11 +33,11 @@ export const returnColumns = that => (
         key: 'nickname',
         width: 180,
         ellipsis: true,
-          render: (text, record, index) => {
-              return(
-                  <Input placeholder={text} allowClear onBlur={(event=>that.changeDate('nickname',record.uid,event.target.value))}/>
-              )
-          }
+          // render: (text, record, index) => {
+          //     return(
+          //         <Input placeholder={text} allowClear onBlur={(event=>that.changeDate('nickname',record.uid,event.target.value))}/>
+          //     )
+          // }
       },
       {
         title: '年龄',
@@ -45,11 +45,11 @@ export const returnColumns = that => (
         key: 'age',
         width: 100,
         ellipsis: true,
-          render: (text, record, index) => {
-              return(
-                  <Input placeholder={text} allowClear onBlur={(event=>that.changeDate('age',record.uid,event.target.value))}/>
-              )
-          }
+          // render: (text, record, index) => {
+          //     return(
+          //         <Input placeholder={text} allowClear onBlur={(event=>that.changeDate('age',record.uid,event.target.value))}/>
+          //     )
+          // }
       },
       {
         title: '性别',
@@ -115,8 +115,9 @@ export const returnColumns = that => (
           const res = text ? text.slice(0, 7) + '...' : '暂无数据'
           return (
 
-              <Tooltip placement="top" title={res}>
-                  <Input placeholder={text} allowClear onBlur={(event=>that.changeDate('signature',record.uid,event.target.value))}/>
+              <Tooltip placement="top" title={text}>
+                  {res}
+                  {/*<Input placeholder={text} allowClear onBlur={(event=>that.changeDate('signature',record.uid,event.target.value))}/>*/}
               </Tooltip>
           )
         }

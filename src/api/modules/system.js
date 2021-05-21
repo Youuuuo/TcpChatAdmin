@@ -12,6 +12,10 @@ export default {
   getAllUser() {
     return request.get(`/sys/getAllUser`)
   },
+  /** 通过账号获取用户信息 */
+  getUserByName(username) {
+    return request.get(`/sys/getUserByName?username=${username}`)
+  },
   /**
    * month 表示获取哪一个月的用户注册数量
    */
