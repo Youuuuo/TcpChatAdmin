@@ -1,13 +1,15 @@
 import React, {Component, useState} from 'react'
-import {Modal, Button, Table, message, Space, Input} from 'antd'
+import {Modal, Button, Table, message, Space, Input ,Select} from 'antd'
 import {adminApi, systemApi} from './../../../api'
 import CustomModal from './components/Modal'
 import {returnColumns} from './const'
 import AddForm from "../../Admin/addForm";
 import Search from "antd/es/input/Search";
 const {changeUserStatus} = systemApi
+const { Option } = Select;
 const rowHeight = 90
-let username = ''
+let inputData = ''
+let selectData = 'code'
 class EditUser extends Component {
   constructor(props) {
     super(props)
@@ -90,14 +92,18 @@ class EditUser extends Component {
     this.getData = e => {
       const {value} = e.target;
       console.log(value,'输入的值')
-      username = value
+      inputData = value
+    }
+    this.getSelectData = e => {
+      console.log(e,'筛选框')
+      selectData = e
     }
     this.searchData = e => {
-      if (username == null || username == ''){
+      if (inputData == null || inputData == ''){
         this.componentDidMount()
       } else {
         const {getUserByName} = systemApi
-        getUserByName(username).then(res => {
+        getUserByName(selectData,inputData).then(res => {
           const {data, code} = res.data
           if (res.status < 400 && code === 2000) {
             data.userList.forEach(item => {
@@ -116,6 +122,12 @@ class EditUser extends Component {
           <Space direction="vertical">
             <div>
               <Space>
+                <Select defaultValue="code" style={{ width: 120 }} onChange={this.getSelectData}>
+                  <Option value="code">code</Option>
+                  <Option value="username">账号</Option>
+                  <Option value="nickname">昵称</Option>
+                  <Option value="age">年龄</Option>
+                </Select>
                 <Input onPressEnter={this.searchData} onChange={this.getData} placeholder="请输入账号" style={{ width: 400 }}/>
                 <Button type="primary" onClick={this.searchData}>搜索</Button>
               </Space>

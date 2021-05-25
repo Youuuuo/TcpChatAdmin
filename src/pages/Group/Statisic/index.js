@@ -1,9 +1,11 @@
 import React, {useState, useEffect} from 'react'
-import {Button, Input, Space, Table} from 'antd'
+import {Button, Input, Select, Space, Table} from 'antd'
 import {groupApi, systemApi} from './../../../api'
 import Icon from '@ant-design/icons';
 import {formatDateToZH} from "../../../utils";
-
+const { Option } = Select;
+let inputData = ''
+let selectData = 'code'
 const columns = [
   {
     title: '群号',
@@ -67,6 +69,9 @@ export default function GroupStatics(props) {
     console.log(value,'输入的值')
     values = value
   }
+  const getSelectData = e =>{
+    selectData = e
+  }
   const SearchData  = e => {
     if (values == null || values == ''){
       ;(async () => {
@@ -82,11 +87,27 @@ export default function GroupStatics(props) {
         console.log(data)
         if (data.code === 2000) {
           let datas = []
-          data.data.allGroup.forEach(item => {
+          if (selectData == 'code'){
+            data.data.allGroup.forEach(item => {
             if (item.code == values){
               datas.push(item)
             }
-          })
+            })
+          }
+          if (selectData == 'title'){
+            data.data.allGroup.forEach(item => {
+              if (item.title == values){
+                datas.push(item)
+              }
+            })
+          }
+          if (selectData == 'holderName'){
+            data.data.allGroup.forEach(item => {
+              if (item.holderName == values){
+                datas.push(item)
+              }
+            })
+          }
           setGroupList(datas)
         }
       })()
@@ -98,6 +119,11 @@ export default function GroupStatics(props) {
         <Space direction="vertical">
         <div>
           <Space>
+            <Select defaultValue="code" style={{ width: 120 }} onChange={getSelectData}>
+              <Option value="code">群号</Option>
+              <Option value="title">群名称</Option>
+              <Option value="holderName">群主账号</Option>
+            </Select>
           <Input onPressEnter={SearchData} onChange={getData} placeholder="请输入群号" style={{ width: 400 }}/>
           <Button type="primary" onClick={SearchData}>搜索</Button>
           </Space>
