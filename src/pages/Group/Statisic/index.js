@@ -124,7 +124,7 @@ export default function GroupStatics(props) {
               <Option value="title">群名称</Option>
               <Option value="holderName">群主账号</Option>
             </Select>
-          <Input onPressEnter={SearchData} onChange={getData} placeholder="请输入群号" style={{ width: 400 }}/>
+          <Input onPressEnter={SearchData} onChange={getData} placeholder="请输入内容" style={{ width: 400 }}/>
           <Button type="primary" onClick={SearchData}>搜索</Button>
           </Space>
         </div>

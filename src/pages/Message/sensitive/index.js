@@ -1,40 +1,40 @@
 import React, {useState, useEffect} from 'react'
 import Icon from '@ant-design/icons';
-import {Table} from 'antd'
+import {Button, Table} from 'antd'
 import {systemApi} from './../../../api'
 
 import {formatDate} from "../../../utils";
 
 const columns = [
-  {
-    title: '消息编号Id',
-    dataIndex: 'id',
-    key: 'id',
-    width: 230,
-  },
-  {
-    title: '消息房间号',
-    dataIndex: 'roomId',
-    key: 'roomId',
-    width: 430,
-  },
-  {
-    title: '发送者Id',
-    dataIndex: 'senderId',
-    key: 'senderId',
-    width: 230,
-  },
+  // {
+  //   title: '消息编号Id',
+  //   dataIndex: 'id',
+  //   key: 'id',
+  //   width: 230,
+  // },
+  // {
+  //   title: '消息房间号',
+  //   dataIndex: 'roomId',
+  //   key: 'roomId',
+  //   width: 430,
+  // },
+  // {
+  //   title: '发送者Id',
+  //   dataIndex: 'senderId',
+  //   key: 'senderId',
+  //   width: 230,
+  // },
   {
     title: '发送者账号',
     dataIndex: 'senderName',
     key: 'senderName',
-    width: 120,
+    render: text => <a href={'/home/user/edit?username='+ text}>{text}</a>,
+    // render: text => <a onClick={changePath(text)}>{text}</a>,
   },
   {
     title: '消息发送时间',
     dataIndex: 'time',
     key: 'time',
-    width: 200,
     render: (text) => (
         <span><Icon type="clock-circle"/> {formatDate(new Date(text), "YYYY-MM-DD HH-MM-SS")}</span>
     )
@@ -43,7 +43,6 @@ const columns = [
     title: '消息类型',
     dataIndex: 'type',
     key: 'type',
-    width: 100,
   },
   {
     title: '消息内容',

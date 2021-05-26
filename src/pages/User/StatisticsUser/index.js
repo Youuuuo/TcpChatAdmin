@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {systemApi} from './../../../api'
-import {Card, Row, Col, Alert, DatePicker, Statistic} from 'antd'
+import {Card, Row, Col, Alert, DatePicker, Statistic, Select,Space} from 'antd'
 import moment from 'moment'
 import {formatDate, lastMonth} from './../../../utils'
 import MapGeo from './components/Map'
@@ -11,17 +11,18 @@ import {pieChartData, pieChartCols, histogramCols, lineChartCols} from './../../
 import {genderSource, ageSource, lastLoginTimeSource, browserSource} from './const'
 import './index.scss'
 
+const { Option } = Select;
 const {MonthPicker} = DatePicker
 const defaultMonth = formatDate(new Date(), 'YYYY-MM')
 const spaceBetweenStyle = {
   'display': 'flex',
   "justifyContent": "space-between"
 }
-
 class StatisticsUser extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      ShowRow: '1',
       genderData: [],
       ageData: [],
       signUpTimeData: [],
@@ -41,6 +42,12 @@ class StatisticsUser extends Component {
       </div>
   )
 
+  handleChange =(e) => {
+    this.setState({
+      ShowRow: e
+    })
+
+  }
   alertMessage = () => {
     const {userNumTotal} = this.state
     const onlineuserNum = userNumTotal < this.state.onlineUserCount ? userNumTotal : this.state.onlineUserCount || 0
@@ -95,25 +102,36 @@ class StatisticsUser extends Component {
 
   render() {
     const {genderData, ageData, signUpTimeData, lastLoginTimeData, browserData} = this.state
+    const ShowRow = [...this.state.ShowRow];
     const genderPieChartData = pieChartData(genderData)
     const browserPieChartData = pieChartData(browserData)
+    const Show = localStorage.getItem('Show')
     return (
         <div className="user-statistics-page">
           <Alert message={this.alertMessage()} type="success"/>
+          <div style={{paddingTop: 10}}>
+            <Select  defaultValue="用户性别分布图" style={{ width: 800 }} onChange={this.handleChange}>
+              <Option value="1">用户性别分布图</Option>
+              <Option value="2">用户年龄分布图</Option>
+              <Option value="3">用户访问浏览器统计</Option>
+              <Option value="4">用户注册趋势</Option>
+              <Option value="5">用户登录时间段分布</Option>
+            </Select>
+          </div>
           <Row gutter={10}>
-            <Col span={12}>
+            <Col span={12} style={{display : (ShowRow == 1 ? 'block' : 'none')}}>
               <Card title="用户性别分布图" className='card-item'>
                 <PieChar data={genderPieChartData} scale={pieChartCols}/>
               </Card>
             </Col>
-            <Col span={12}>
+            <Col span={12} style={{display : (ShowRow == 2 ? 'block' : 'none')}}>
               <Card title="用户年龄分布图" className="card-item">
                 <Histogram data={ageData} scale={histogramCols}/>
               </Card>
             </Col>
           </Row>
           <Row gutter={10}>
-            <Col span={12}>
+            <Col span={12} style={{display : (ShowRow == 3 ? 'block' : 'none')}}>
               <Card title="用户访问浏览器统计" className='card-item'>
                 <PieChar data={browserPieChartData} scale={pieChartCols}/>
               </Card>
@@ -125,14 +143,14 @@ class StatisticsUser extends Component {
           </Col> */}
           </Row>
           <Row gutter={10}>
-            <Col span={24}>
+            <Col span={24} style={{display : (ShowRow == 4  ? 'block' : 'none')}}>
               <Card title={this.signUserCardTitle()} className="card-item">
                 <LineChart data={signUpTimeData} scale={lineChartCols}/>
               </Card>
             </Col>
           </Row>
           <Row gutter={10}>
-            <Col span={24}>
+            <Col span={24} style={{display : (ShowRow == 5 ? 'block' : 'none')}}>
               <Card title="用户登录时间段分布" className="card-item">
                 <LineChart data={lastLoginTimeData} scale={lineChartCols}/>
               </Card>

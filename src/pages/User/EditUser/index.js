@@ -9,7 +9,7 @@ const {changeUserStatus} = systemApi
 const { Option } = Select;
 const rowHeight = 90
 let inputData = ''
-let selectData = 'code'
+let selectData = 'username'
 class EditUser extends Component {
   constructor(props) {
     super(props)
@@ -122,13 +122,13 @@ class EditUser extends Component {
           <Space direction="vertical">
             <div>
               <Space>
-                <Select defaultValue="code" style={{ width: 120 }} onChange={this.getSelectData}>
+                <Select defaultValue="username" style={{ width: 120 }} onChange={this.getSelectData}>
                   <Option value="code">code</Option>
                   <Option value="username">账号</Option>
                   <Option value="nickname">昵称</Option>
-                  <Option value="age">年龄</Option>
+                  {/*<Option value="age">年龄</Option>*/}
                 </Select>
-                <Input onPressEnter={this.searchData} onChange={this.getData} placeholder="请输入账号" style={{ width: 400 }}/>
+                <Input onPressEnter={this.searchData} onChange={this.getData} placeholder="请输入内容" style={{ width: 400 }}/>
                 <Button type="primary" onClick={this.searchData}>搜索</Button>
               </Space>
             </div>
@@ -140,6 +140,22 @@ class EditUser extends Component {
     )
   }
   componentDidMount() {
+    if (this.props.history.location.search != null){
+      let data = this.props.history.location.search.slice(10)
+      const {getUserByName} = systemApi
+      getUserByName(selectData,data).then(res => {
+        const {data, code} = res.data
+        if (res.status < 400 && code === 2000) {
+          data.userList.forEach(item => {
+            item.address = item.province.name + item.city.name
+            item.loginSetting = item.loginSetting ? item.loginSetting : {}
+          })
+          this.setState({
+            userList: data.userList
+          })
+        }
+      })
+    }
     const {getAllUser} = systemApi
     getAllUser().then(res => {
       const {data, code} = res.data
