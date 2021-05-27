@@ -9,15 +9,15 @@ const genderPieChartTemplate = [
 ]
 
 /**
- * 
+ *
  * @param {Array} data 此处data是通过API获取到的user数组
  */
 export const genderSource = (data) => {
   const genderArr = data.map(item => item.sex)
   genderArr.forEach(item => {
-    if (item === '0') {
+    if (item == '0') {
       genderPieChartTemplate[0].count ++
-    } else if (item === '1') {
+    } else if (item == '1') {
       genderPieChartTemplate[1].count ++
     } else {
       genderPieChartTemplate[2].count ++
@@ -35,7 +35,7 @@ const ageHistogramTemplate = [
 ]
 
 /**
- * 
+ *
  * @param {Array} data 此处data是通过API获取到的user数组
  */
 export const ageSource = (data) => {
@@ -46,7 +46,7 @@ export const ageSource = (data) => {
     } else if (item > 15 && item < 30) {
       ageHistogramTemplate[1].count ++
     } else if (item >= 30 && item < 50) {
-      ageHistogramTemplate[2].count ++            
+      ageHistogramTemplate[2].count ++
     } else {
       ageHistogramTemplate[3].count ++
     }
@@ -66,7 +66,7 @@ const lastLoginTimeLineChartTemplate = [
 ]
 
 /**
- * 
+ *
  * @param {Array} data 此处data是通过API获取到的user数组
  */
 export const lastLoginTimeSource = (data) => {
@@ -108,13 +108,13 @@ export const browserSource = (data) => {
     if (item === 'Opera') {
       browserPieChartTemplate[2].count++
     } else if (item === 'Chrome') {
-      browserPieChartTemplate[0].count++            
+      browserPieChartTemplate[0].count++
     } else if (item === 'Safari') {
-      browserPieChartTemplate[3].count++            
+      browserPieChartTemplate[3].count++
     } else if (item === 'FireFox') {
-      browserPieChartTemplate[1].count++            
+      browserPieChartTemplate[1].count++
     } else if (item === 'IE' || item === 'Edge') {
-      browserPieChartTemplate[4].count++            
+      browserPieChartTemplate[4].count++
     }
   })
   return browserPieChartTemplate

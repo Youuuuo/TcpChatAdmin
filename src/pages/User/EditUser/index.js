@@ -100,8 +100,20 @@ class EditUser extends Component {
     }
     this.searchData = e => {
       if (inputData == null || inputData == ''){
-        this.componentDidMount()
-      } else {
+        const {getAllUser} = systemApi
+        getAllUser().then(res => {
+          const {data, code} = res.data
+          if (res.status < 400 && code === 2000) {
+            data.userList.forEach(item => {
+              item.address = item.province.name + item.city.name
+              item.loginSetting = item.loginSetting ? item.loginSetting : {}
+            })
+            this.setState({
+              userList: data.userList
+            })
+          }
+        })
+      } else if (selectData != 'age') {
         const {getUserByName} = systemApi
         getUserByName(selectData,inputData).then(res => {
           const {data, code} = res.data
@@ -112,6 +124,26 @@ class EditUser extends Component {
             })
             this.setState({
               userList: data.userList
+            })
+          }
+        })
+      } else if (selectData == 'age'){
+        const {getAllUser} = systemApi
+        getAllUser().then(res => {
+          let agedata = []
+          const {data, code} = res.data
+          if (res.status < 400 && code === 2000) {
+            data.userList.forEach(item => {
+              item.address = item.province.name + item.city.name
+              item.loginSetting = item.loginSetting ? item.loginSetting : {}
+            })
+            data.userList.forEach(item2 => {
+              if (item2.age == inputData){
+                agedata.push(item2)
+              }
+            })
+            this.setState({
+              userList: agedata
             })
           }
         })
@@ -126,7 +158,7 @@ class EditUser extends Component {
                   <Option value="code">code</Option>
                   <Option value="username">账号</Option>
                   <Option value="nickname">昵称</Option>
-                  {/*<Option value="age">年龄</Option>*/}
+                  <Option value="age">年龄</Option>
                 </Select>
                 <Input onPressEnter={this.searchData} onChange={this.getData} placeholder="请输入内容" style={{ width: 400 }}/>
                 <Button type="primary" onClick={this.searchData}>搜索</Button>
@@ -140,8 +172,11 @@ class EditUser extends Component {
     )
   }
   componentDidMount() {
+    console.log(this.props.history.location.search,'this.props.history.location.search')
     if (this.props.history.location.search != null){
+      console.log('111111111111')
       let data = this.props.history.location.search.slice(10)
+      selectData = 'username'
       const {getUserByName} = systemApi
       getUserByName(selectData,data).then(res => {
         const {data, code} = res.data
@@ -155,20 +190,21 @@ class EditUser extends Component {
           })
         }
       })
+    } else {
+      const {getAllUser} = systemApi
+      getAllUser().then(res => {
+        const {data, code} = res.data
+        if (res.status < 400 && code === 2000) {
+          data.userList.forEach(item => {
+            item.address = item.province.name + item.city.name
+            item.loginSetting = item.loginSetting ? item.loginSetting : {}
+          })
+          this.setState({
+            userList: data.userList
+          })
+        }
+      })
     }
-    const {getAllUser} = systemApi
-    getAllUser().then(res => {
-      const {data, code} = res.data
-      if (res.status < 400 && code === 2000) {
-        data.userList.forEach(item => {
-          item.address = item.province.name + item.city.name
-          item.loginSetting = item.loginSetting ? item.loginSetting : {}
-        })
-        this.setState({
-          userList: data.userList
-        })
-      }
-    })
   }
 }
 
