@@ -173,7 +173,7 @@ class EditUser extends Component {
   }
   componentDidMount() {
     console.log(this.props.history.location.search,'this.props.history.location.search')
-    if (this.props.history.location.search != null){
+    if (this.props.history.location.search.length != 0){
       console.log('111111111111')
       let data = this.props.history.location.search.slice(10)
       selectData = 'username'
